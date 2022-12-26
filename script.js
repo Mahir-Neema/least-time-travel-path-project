@@ -43,13 +43,13 @@ onload = function () {
     network2.setOptions(options);
 
     function createData(){
-        V = Math.floor(Math.random() * 8) + 5; // Ensures V is between 5 and 12
+        V = Math.floor(Math.random() * 8) + 5; //  5 and 12
         let nodes = [];
         for(let i=1;i<=V;i++) nodes.push({id:i, label: cities[i-1]})
         // Prepareing the vis.js style nodes for our data
         nodes = new vis.DataSet(nodes);
 
-        // Creating a tree like underlying graph structure
+        // Creating a tree like graph structure
         let edges = [];
         for(let i=2;i<=V;i++){
             let neighbour = i - Math.floor(Math.random()*Math.min(i-1,3)+1); // Picks a neighbour from i-3 to i-1
@@ -57,22 +57,22 @@ onload = function () {
         }
 
         // Randomly adding new edges to graph
-        // Type of bus is 0
-        // Type of plane is 1
+        // 0->bus
+        // 1->plane
         for(let i=1;i<=V/2;){
 
-            let n1 = Math.floor(Math.random()*V)+1;
-            let n2 = Math.floor(Math.random()*V)+1;
-            if(n1!==n2){
-                if(n1<n2){
-                    let temp = n1;
-                    n1 = n2;
-                    n2 = temp;
+            let m1 = Math.floor(Math.random()*V)+1;
+            let m2 = Math.floor(Math.random()*V)+1;
+            if(m1!==m2){
+                if(m1<m2){
+                    let temp = m1;
+                    m1 = m2;
+                    m2 = temp;
                 }
                 // if an edge between these two vertices already exits And if it does then of which kind
                 let works = 0;
                 for(let j=0;j<edges.length;j++){
-                    if(edges[j]['from']===n1 && edges[j]['to']===n2) {
+                    if(edges[j]['from']===m1 && edges[j]['to']===m2) {
                         if(edges[j]['type']===0)
                             works = 1;
                         else
@@ -81,15 +81,15 @@ onload = function () {
                 }
 
                 // Adding edges to the graph
-                // If works == 0, you can add bus as well as plane between vertices
-                // If works == 1, you can only add plane between them
+                // If works == 0, we can add bus as well as plane between vertices
+                // If works == 1, we can only add plane between them
                 if(works <= 1) {
                     if (works === 0 && i < V / 4) {
                         // Adding a bus
                         edges.push({
                             type: 0,
-                            from: n1,
-                            to: n2,
+                            from: m1,
+                            to: m2,
                             color: 'orange',
                             label: String(Math.floor(Math.random() * 70) + 31)
                         });
@@ -97,8 +97,8 @@ onload = function () {
                         // Adding a plane
                         edges.push({
                             type: 1,
-                            from: n1,
-                            to: n2,
+                            from: m1,
+                            to: m2,
                             color: 'green',
                             label: String(Math.floor(Math.random() * 50) + 1)
                         });
@@ -132,7 +132,7 @@ onload = function () {
     };
 
     solve.onclick = function () {
-        // Create graph from data and set to display
+        // Creating graph from data and set to display
         temptext1.style.display  = "none";
         temptext2.style.display  = "none";
         container2.style.display = "inline";
@@ -218,7 +218,7 @@ onload = function () {
 
         const data = curr_data;
 
-        // Creating adjacency list matrix graph from question data
+        // Creating adjacency list
         const graph = createGraph(data);
 
         // Applying djikstra from source and destination
